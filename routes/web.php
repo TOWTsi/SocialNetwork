@@ -24,13 +24,14 @@ Route::get('/newmeme', function () {
 //Für Testzwecke:
 Route::get('/show_all', function() {
   $memes = Meme::orderBy('id')->get();
-
   return view('memes/show_all_title', ['memes' => $memes]);
 });
 
-//Posten eines Memes:
-//Bilder können noch nicht erfolgreich abgespeichert werden
-//Grundfuktionalität steht ansonsten
+Route::get('/show_meme/{id}', function($id) {
+  $meme = Meme::findOrFail($id);
+  return view('memes/show_one', ['meme' => $meme]);
+});
+
 Route::post('/newmeme', 'MemeController@store');
 
 Auth::routes();

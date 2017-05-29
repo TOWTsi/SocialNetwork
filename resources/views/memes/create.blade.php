@@ -13,7 +13,7 @@ fest legen zu können.
 
     </head>
     <body>
-    	<form method="post" name="addmeme">
+    	<form method="post" name="addmeme" enctype="multipart/form-data">
     	{{ csrf_field() }}
         	<table>
         		<tr>
@@ -23,7 +23,7 @@ fest legen zu können.
 
         		<tr>
         			<td> Picture:
-        			<td> <input id="picture" name="picture" type="file" enctype="multipart/form-data">
+        			<td> <input id="picture" name="picture" type="file">
         		</tr>
 
         		<tr>

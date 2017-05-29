@@ -27,10 +27,6 @@ class MemeController extends Controller
 
     	$meme->meme_title = $request->meme_title;
 
-      //TODO
-      //Sinnvolle Namensgebung für neue Bilder überlegen, die Doppelbenennung verhindert
-    	$meme->image_url = 'tmp_test';
-
       if ($request->description == NULL) {
         $meme->description = '';
       }
@@ -48,20 +44,33 @@ class MemeController extends Controller
       $meme->user_id = 42;
       $meme->group_id = -1; //keine Gruppe zugewiesen
 
-    	//Hier gibt es noch grobe Fehler - sowieso fehlt noch Verknüpfung mit Datenbank
-    	//-> Speichert aktuell den Namen des Bildes in einer Datei Names Text aber nicht das Bild
-    	Storage::put('memes/test', $request->picture);
-      //Ich habe verschiedene Kombinationen des folgenden Codes ausprobiert.
-      //Es scheint als würde die Bilddatei nicht vernünftig übertragen werden und als
-      //würde sie hier nicht zur Verfügung stehen. Auch Änderungen in create.blade.php
-      //haben bisher nicht zum Ziel geführt.
+      //Temporär Platzhalter Name speichern
+      $meme->image_url = 'tmp';
+
+      $meme->save();
       //Storage::putFile('memes/test', $request->file('picture'));
       //$path = $request->file('picture')->store('memes');
+      //$file = $request->file('picture');
+      //var_dump($file);
+      //die();
+      if ($request->hasFile('picture')) {
+        $file = $request->file('picture');
 
-    	$meme->save();
+        $filename = $meme->id . '.' . $file->getClientOriginalExtension();
+
+        //$filename = 'test.' . $file->getClientOriginalExtension();
+        $file = $file->move(public_path('/images/memes/'), $filename);
+
+        $path = '/images/memes/' . $filename;
+        //$user->update(['profile_pic' => $path]);
+        $meme->update(['image_url' => $path]);
+
+      }
 
     	//Temporär - Später sollte view von neu erstelltem Meme sichtbar sein.
-    	return view('welcome');
+    	//return view('welcome');
+      //$meme = Meme::findOrFail($id);
+      return view('memes/show_one', ['meme' => $meme]);
     }
 
 
