@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Storage;
 
-class Hashtag_Meme extends Controller
+class Hashtag_MemeController extends Controller
 {
     //
     public function store(Request $request)

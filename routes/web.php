@@ -1,6 +1,8 @@
 <?php
 
 use App\Meme;
+use App\Hashtag;
+use App\Hashtag_Meme;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,18 @@ Route::get('/newmeme', function () {
 Route::get('/show_all', function() {
   $memes = Meme::orderBy('id')->get();
   return view('memes/show_all_title', ['memes' => $memes]);
+});
+
+//Für Testzwecke, ob alle Hashtags gesetzt wurden:
+Route::get('/show_all_tags', function() {
+  $tags = Hashtag::orderBy('id')->get();
+  return view ('search/show_all_tags', ['tags' => $tags]);
+});
+
+//Tür testzwecke, ob alle Relationen vorhanden sind:
+Route::get('/show_all_tag_relations', function() {
+  $rels = Hashtag_Meme::orderBy('id')->get();
+  return view ('search/show_all_tag_relations', ['rels' => $rels]);
 });
 
 Route::get('/show_meme/{id}', function($id) {

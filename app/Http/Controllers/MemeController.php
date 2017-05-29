@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Meme;
+use App\Hashtag;
+use App\Hashtag_Meme;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -25,6 +27,7 @@ class MemeController extends Controller
     {
     	$meme = new Meme;
 
+
     	$meme->meme_title = $request->meme_title;
 
       if ($request->description == NULL) {
@@ -46,8 +49,29 @@ class MemeController extends Controller
 
       //Temporär Platzhalter Name speichern
       $meme->image_url = 'tmp';
-
       $meme->save();
+
+      // Hier werden die Hashtags gesetzt und in Relation gebracht
+      if ($request->hashlist != NULL) {
+          $tok = strtok($request->hashlist, ' ');
+          while ($tok !== false) {
+            $tmp = Hashtag::where('name', $tok)->first();
+            if ($tmp == NULL) { // Wenn ein Hashtag nicht existiert, dann wird es hinzugefügt
+              echo 'Hallo';
+              $hash = new Hashtag;
+              $hash->name = $tok;
+              $hash->save();
+            } // Hier wird die Relation aufgebaut
+            $tmp = Hashtag::where('name', $tok)->first()->id;
+            $hash_meme = new Hashtag_Meme;
+            $hash_meme->meme_id = $meme->id;
+            $hash_meme->hash_id = $tmp;
+            $hash_meme->save();
+            $tok = strtok(' ');
+          }
+      }
+
+
       //Storage::putFile('memes/test', $request->file('picture'));
       //$path = $request->file('picture')->store('memes');
       //$file = $request->file('picture');

@@ -31,6 +31,11 @@ fest legen zu können.
         			<td> <input id="description" name="description" type="text" placeholder="not required"/>
         		</tr>
 
+            <tr>
+        			<td> Hashtags:
+        			<td> <input id="hashlist" name="hashlist" type="text" placeholder="not required"/>
+        		</tr>
+
         		<tr>
         			<td> Group:
         			<!-- Soll optional sein, per Dropdownmenu, nur Gruppen möglich in denen Mitglied -->

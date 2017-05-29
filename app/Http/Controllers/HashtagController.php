@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Storage;
 
-class Hashtag extends Controller
+class HashtagController extends Controller
 {
     //
     public function store(Request $request)
